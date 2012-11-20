@@ -1,0 +1,11 @@
+{
+	"name": "はいからさんが通る",
+	"version": "1.0",
+	"manifest_version":2,
+	"browser_action":{
+		"default_icon":"resource/Anarchy-symbol.svg.png"
+	},
+	"background" : {
+		"scripts": ["background.js"]
+	}
+}
