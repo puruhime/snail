@@ -41,7 +41,7 @@ function post($scope, $http){
 			},
 			84:{//t
 				keyup:function(){
-					console.log("t");
+					snail.tumblr.blog.post.reblog($scope.posts[index]);
 				}
 			}
 		}

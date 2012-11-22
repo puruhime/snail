@@ -84,6 +84,8 @@ snail.tumblr.api = function(args){
 		}
 	};
 
+	
+
 	"params" in args && Object.keys(args.params).forEach(function(key){
 		message.parameters[key] = args.params[key];
 	});
@@ -123,12 +125,14 @@ snail.tumblr.blog.post.reblog = function(args){
 		});
 	}
 
+	debugger;
 	snail.tumblr.api({
 		url:"http://api.tumblr.com/v2/blog/" + localStorage["userName"] + "/post/reblog",
 		method: "POST",
 		params:{
 			id: args.id,
-			reblog_key: args.reblogKey
+			reblog_key: args.reblog_key,
+			type: args.type
 		}
 	});
 };
