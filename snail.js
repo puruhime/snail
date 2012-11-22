@@ -9,18 +9,44 @@ function post($scope, $http){
 		$scope.posts.push.apply($scope.posts, d.response.posts);
 		$scope.posts[0].isShow = true;
 	}, $http);
-}
 
+	new function appendKeyEventListener(){
+		const KEYS = {
+			74:{//j
+				keyup:function($scope){
+					index++;
 
+					if(index >= $scope.posts.length){
+						index = index - 1;
+					}
 
+					$scope.posts[index].isShow = true;
+				}
+			},
+			75:{//k
+				keyup:function($scope){
+					index--;
 
+					if(index <= 0){
+						index = 0;
+					}
 
-$(function(){
-	const KEY_J = 74;
+					$scope.posts[index].isShow = true;
+				}
+			},
+			84:{//t
+				keyup:function(){
 
-	$(document).keyup(function(e){
-		if(e.keyCode == KEY_J){
-			alert();
+				}
+			}
 		}
-	});
-});
+
+		var index = 0;
+
+		$(document).keyup(function(e){
+			$scope.posts[index].isShow = false;
+			e.keyCode in KEYS && KEYS[e.keyCode].keyup($scope);
+			$scope.$apply();
+		});
+	}
+}
