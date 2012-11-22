@@ -1,11 +1,18 @@
-<html ng-app>
+<html ng-app ng-csp>
 	<head>
 		<script type="text/javascript" src="/lib/oauth/sha1.js"></script>
 		<script type="text/javascript" src="lib/oauth/oauth.js"></script>
 		<script type="text/javascript" src="lib/angular.min.js"></script>
+		<script type="text/javascript" src="lib/jquery-1.8.3.min.js"></script>
+		<script type="text/javascript" src="snail.tumblr.js"></script>
 		<script type="text/javascript" src="snail.js"></script>
 	</head>
 	<body ng-controller="oauth">
-		<a href="chrome_ex_oauth.html">test</a>
+		<div ng-controller="post">
+			<div ng-repeat="post in posts" ng-show="post.isShow">
+				{{post.text}}
+				<img ng-src="{{post.photos[0].alt_sizes[0].url}}">
+			</div>
+		</div>
 	</body>
 </html>
