@@ -72,9 +72,10 @@ snail.tumblr.init = function($http){
 snail.tumblr.api = function(args){
 	const url = args.url
 	const success = args.success;
+	const method = "method" in args ? args.method : "GET";
 
 	var message = {
-		method: "GET",
+		method: method,
 		action: url,
 		parameters: {
 			oauth_signature_method: "HMAC-SHA1",
@@ -82,6 +83,10 @@ snail.tumblr.api = function(args){
 			oauth_token: localStorage["accessToken"]
 		}
 	};
+
+	"params" in args && Object.keys(args.params).forEach(function(key){
+		message.parameters[key] = args.params[key];
+	});
 
 	OAuth.setTimestampAndNonce(message);
 	OAuth.SignatureMethod.sign(message, {
@@ -110,16 +115,20 @@ snail.tumblr.user.info = function(success){
 };
 snail.tumblr.blog = {};
 snail.tumblr.blog.post = {};
-snail.tumblr.blog.post.reblog = function(success){
+snail.tumblr.blog.post.reblog = function(args){
 	if("userName" in localStorage == false){
 		snail.tumblr.user.info(function(d){
 			localStorage["userName"] = d.response.user.name;
-			arguments.callee(success);
+			arguments.callee(args);
 		});
 	}
 
 	snail.tumblr.api({
 		url:"http://api.tumblr.com/v2/blog/" + localStorage["userName"] + "/post/reblog",
-		success:success
+		method: "POST",
+		params:{
+			id: args.id,
+			reblog_key: args.reblogKey
+		}
 	});
 };
