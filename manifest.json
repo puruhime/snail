@@ -1,0 +1,18 @@
+{
+	"name": "はいからさんが通る",
+	"version": "1.0",
+	"manifest_version":2,
+	"browser_action":{
+		"default_icon":"resource/Anarchy-symbol.svg.png"
+	},
+	"background" : {
+		"scripts": ["background.js"]
+	},
+	"permissions":[
+		"tabs",
+		"http://www.tumblr.com/oauth/request_token",
+		"http://www.tumblr.com/oauth/authorize",
+		"http://www.tumblr.com/oauth/access_token",
+		"http://api.tumblr.com/v2/user/info"
+	]
+}
