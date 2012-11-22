@@ -9,6 +9,7 @@ function post($scope, $http){
 		$scope.posts.push.apply($scope.posts, d.response.posts);
 		$scope.posts[0].isShow = true;
 		$scope.$apply();
+		debugger;
 	});
 
 	new function appendKeyEventListener(){
@@ -20,7 +21,8 @@ function post($scope, $http){
 					index++;
 
 					if(index >= $scope.posts.length){
-						index = index - 1;
+						//TODO ここでロード
+						return;
 					}
 
 					$scope.posts[index].isShow = true;
@@ -49,7 +51,7 @@ function post($scope, $http){
 		var index = 0;
 
 		$(document).keyup(function(e){
-			KEYS[e.keyCode].keyup($scope);
+			e.keyCode in KEYS && KEYS[e.keyCode].keyup($scope);
 			$scope.$apply();
 		});
 	}

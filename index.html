@@ -11,7 +11,12 @@
 		<div ng-controller="post">
 			<div ng-repeat="post in posts" ng-show="post.isShow">
 				{{post.text}}
-				<img ng-src="{{post.photos[0].alt_sizes[0].url}}">
+				<img ng-repeat="photo in post.photos"
+					 ng-src="{{photo.alt_sizes[0].url}}">
+				<div>{{post.caption}}</div>
+				<div>
+					<a href="{{post.post_url}}" target="_blank">permalink</a>
+				</div>
 			</div>
 		</div>
 	</body>

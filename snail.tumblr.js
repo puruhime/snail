@@ -125,14 +125,58 @@ snail.tumblr.blog.post.reblog = function(args){
 		});
 	}
 
+	/*
+	$.ajax({
+		url:"http://www.tumblr.com/reblog/" + args.id + "/" + args.reblog_key,
+		type:"GET",
+		success:function(d){
+			const data = {};
+
+			$(d).find("input, select, textarea").each(function(){
+				if(["t", "scope", "q", "UPLOAD_IDENTIFIER", "photo_raw", "photo_raw", "MAX_FILE_SIZE"].some(function(key){
+					return key == this.name;
+				}, this)){
+					return;
+				}
+
+				data[this.name] = this.value;
+			});
+
+
+			console.log(data);
+			debugger;
+			$.ajax({
+				url:"http://www.tumblr.com/reblog/" + args.id + "/" + args.reblog_key,
+				type:"POST",
+				data:data,
+				success:function(d){
+					debugger;
+				}
+			});
+		}
+	});
+	*/
 	debugger;
 	snail.tumblr.api({
-		url:"http://api.tumblr.com/v2/blog/" + localStorage["userName"] + "/post/reblog",
+		url:"http://api.tumblr.com/v2/blog/" + localStorage["userName"] + ".tumblr.com/post/reblog",
 		method: "POST",
 		params:{
 			id: args.id,
 			reblog_key: args.reblog_key,
 			type: args.type
+		},
+		success:function(d){
+			debugger;
 		}
 	});
+
+	$.ajax({
+		url:"http://api.tumblr.com/v2/blog/puruhime.tumblr.com/posts/" +
+			"?api_key=sFuOrQsJF7OkxNhxh0A3gEb2AgCVju4lLzku7E1QkARqfxBWoV" +
+			"&id=" + args.id,
+		type:"GET",
+		success:function(d){
+			debugger;
+		}
+	})
 };
