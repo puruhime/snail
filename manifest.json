@@ -7,5 +7,9 @@
 	},
 	"background" : {
 		"scripts": ["background.js"]
-	}
+	},
+	"permissions":[
+		"tabs",
+		"http://www.tumblr.com/*"
+	]
 }

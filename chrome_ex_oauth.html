@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<!--
+ * Copyright (c) 2009 The Chromium Authors. All rights reserved.  Use of this
+ * source code is governed by a BSD-style license that can be found in the
+ * LICENSE file.
+-->
+<html>
+  <head>
+    <title>OAuth Redirect Page</title>
+    <style type="text/css">
+      body {
+        font: 16px Arial;
+        color: #333;
+      }
+    </style>
+	  <script type="text/javascript" src="lib/oauth/chrome_ex_oauthsimple.js"></script>
+	  <script type="text/javascript" src="lib/oauth/chrome_ex_oauth.js"></script>
+	  <script type="text/javascript">
+		  var oauth = ChromeExOAuth.initBackgroundPage({
+			  'request_url': "POST http://www.tumblr.com/oauth/request_token",
+			  'authorize_url': "http://www.tumblr.com/oauth/authorize",
+			  'access_url': "POST http://www.tumblr.com/oauth/access_token",
+			  'consumer_key': "sFuOrQsJF7OkxNhxh0A3gEb2AgCVju4lLzku7E1QkARqfxBWoV",
+			  'consumer_secret': "IZ6BYPDVcW1JglzY9UomxP1GJyodONN2cX8Ref6YYSV3qHm4qh",
+			  'app_name': "snail"
+		  });
+
+		  oauth.authorize(function() {
+			  alert();
+		  });
+	  </script>
+  </head>
+  <body>
+    Redirecting...
+  </body>
+</html>
