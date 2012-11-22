@@ -72,7 +72,6 @@ snail.tumblr.init = function($http){
 snail.tumblr.api = function(args){
 	const url = args.url
 	const success = args.success;
-	const $http = args.$http;
 
 	var message = {
 		method: "GET",
@@ -90,16 +89,37 @@ snail.tumblr.api = function(args){
 		tokenSecret: localStorage["accessTokenSecret"]
 	});
 
-	$http({
-		method:message.method,
-		url:OAuth.addToURL(message.action, message.parameters)
-	}).success(success);
+	$.ajax({
+		type:message.method,
+		url:OAuth.addToURL(message.action, message.parameters),
+		success:success
+	})
 };
 snail.tumblr.user = {};
-snail.tumblr.user.dashboard = function(success, $http){
+snail.tumblr.user.dashboard = function(success){
 	snail.tumblr.api({
 		url:"http://api.tumblr.com/v2/user/dashboard",
-		success:success,
-		$http:$http
+		success:success
+	});
+};
+snail.tumblr.user.info = function(success){
+	snail.tumblr.api({
+		url:"http://api.tumblr.com/v2/user/info",
+		success:success
+	});
+};
+snail.tumblr.blog = {};
+snail.tumblr.blog.post = {};
+snail.tumblr.blog.post.reblog = function(success){
+	if("userName" in localStorage == false){
+		snail.tumblr.user.info(function(d){
+			localStorage["userName"] = d.response.user.name;
+			arguments.callee(success);
+		});
+	}
+
+	snail.tumblr.api({
+		url:"http://api.tumblr.com/v2/blog/" + localStorage["userName"] + "/post/reblog",
+		success:success
 	});
 };

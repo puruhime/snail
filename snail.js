@@ -8,12 +8,15 @@ function post($scope, $http){
 	snail.tumblr.user.dashboard(function(d){
 		$scope.posts.push.apply($scope.posts, d.response.posts);
 		$scope.posts[0].isShow = true;
-	}, $http);
+		$scope.$apply();
+	});
 
 	new function appendKeyEventListener(){
 		const KEYS = {
 			74:{//j
 				keyup:function($scope){
+					$scope.posts[index].isShow = false;
+
 					index++;
 
 					if(index >= $scope.posts.length){
@@ -25,6 +28,8 @@ function post($scope, $http){
 			},
 			75:{//k
 				keyup:function($scope){
+					$scope.posts[index].isShow = false;
+
 					index--;
 
 					if(index <= 0){
@@ -36,7 +41,7 @@ function post($scope, $http){
 			},
 			84:{//t
 				keyup:function(){
-
+					console.log("t");
 				}
 			}
 		}
@@ -44,8 +49,7 @@ function post($scope, $http){
 		var index = 0;
 
 		$(document).keyup(function(e){
-			$scope.posts[index].isShow = false;
-			e.keyCode in KEYS && KEYS[e.keyCode].keyup($scope);
+			KEYS[e.keyCode].keyup($scope);
 			$scope.$apply();
 		});
 	}

@@ -10,7 +10,9 @@
 	},
 	"permissions":[
 		"tabs",
-		"http://www.tumblr.com/*",
+		"http://www.tumblr.com/oauth/request_token",
+		"http://www.tumblr.com/oauth/authorize",
+		"http://www.tumblr.com/oauth/access_token",
 		"http://api.tumblr.com/v2/user/info"
 	]
 }
