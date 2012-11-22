@@ -9,7 +9,6 @@ function post($scope, $http){
 		$scope.posts.push.apply($scope.posts, d.response.posts);
 		$scope.posts[0].isShow = true;
 		$scope.$apply();
-		debugger;
 	});
 
 	new function appendKeyEventListener(){
@@ -22,6 +21,13 @@ function post($scope, $http){
 
 					if(index >= $scope.posts.length){
 						//TODO ここでロード
+						snail.tumblr.user.dashboard(function(d){
+							debugger;
+							$scope.posts.push.apply($scope.posts, d.response.posts);
+							$scope.posts[index].isShow = true;
+							$scope.$apply();
+						}, $scope.posts[index - 1].id);
+
 						return;
 					}
 
