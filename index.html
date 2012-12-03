@@ -15,7 +15,7 @@
 					<img ng-repeat="photo in post.photos"
 					 ng-src="{{photo.alt_sizes[0].url}}">
 				</a>
-				<div>{{post.caption | html}}</div>
+				<div ng-bind-html-unsafe="post.caption"></div>
 				<div>
 					<a href="{{post.post_url}}" target="_blank">permalink</a>
 				</div>
