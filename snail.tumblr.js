@@ -103,13 +103,16 @@ snail.tumblr.api = function(args){
 	})
 };
 snail.tumblr.user = {};
-snail.tumblr.user.dashboard = function(success, since_id){
+snail.tumblr.user.dashboard = function(success, offset){
+	if(arguments.length == 1){
+		offset = 0;
+	}
+
 	snail.tumblr.api({
 		url:"http://api.tumblr.com/v2/user/dashboard",
 		success:success,
 		params:{
-			since_id:since_id,
-			limit:2
+			offset:offset
 		}
 	});
 };

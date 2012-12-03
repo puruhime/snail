@@ -20,13 +20,11 @@ function post($scope, $http){
 					index++;
 
 					if(index >= $scope.posts.length){
-						//TODO ここでロード
 						snail.tumblr.user.dashboard(function(d){
-							debugger;
 							$scope.posts.push.apply($scope.posts, d.response.posts);
 							$scope.posts[index].isShow = true;
 							$scope.$apply();
-						}, $scope.posts[index - 1].id);
+						}, index);
 
 						return;
 					}
