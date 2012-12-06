@@ -55,7 +55,12 @@ function post($scope, $http){
 		var index = 0;
 
 		$(document).keyup(function(e){
-			e.keyCode in KEYS && KEYS[e.keyCode].keyup($scope);
+			if(e.keyCode in KEYS == false) return;
+
+			KEYS[e.keyCode].keyup($scope);
+			$(document).scrollTop(0);
+
+
 			$scope.$apply();
 		});
 	}
