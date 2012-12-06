@@ -29,6 +29,9 @@ function post($scope, $http){
 						return;
 					}
 
+					//imageが横長だった場合
+					window.innerWidth
+
 					$scope.posts[index].isShow = true;
 				}
 			},
