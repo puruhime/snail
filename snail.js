@@ -49,8 +49,20 @@ function post($scope, $http){
 				}
 			},
 			84:{//t
-				keyup:function(){
-					snail.tumblr.blog.post.reblog($scope.posts[index]);
+				keyup:function($scope){
+					const self = this;
+
+					snail.tumblr.blog.post.reblog($scope.posts[index],{
+						success:function(){
+							KEYS[74].keyup($scope);
+							$scope.$apply();
+						}
+					});
+				}
+			},
+			82:{//r
+				keyup:function($scope){
+					snail.tumblr.user.like($scope.posts[index]);
 				}
 			}
 		}
@@ -58,7 +70,9 @@ function post($scope, $http){
 		var index = 0;
 
 		$(document).keyup(function(e){
-			if(e.keyCode in KEYS == false) return;
+			if(e.keyCode in KEYS == false) {
+				return;
+			}
 
 			KEYS[e.keyCode].keyup($scope);
 			$(document).scrollTop(0);
