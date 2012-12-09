@@ -6,15 +6,32 @@
 		<script type="text/javascript" src="lib/jquery-1.8.3.min.js"></script>
 		<script type="text/javascript" src="snail.tumblr.js"></script>
 		<script type="text/javascript" src="snail.js"></script>
+		<link rel="stylesheet" href="snail.css">
 	</head>
 	<body ng-controller="oauth">
 		<div ng-controller="post">
-			<div ng-repeat="post in posts" ng-show="post.isShow">
-				{{post.text}}
-				<img ng-repeat="photo in post.photos"
-					 ng-src="{{photo.alt_sizes[0].url}}">
-				<div>{{post.caption}}</div>
-				<div>
+			<div ng-repeat="post in posts" ng-show="post.isShow" class="window" ng-class="post.type">
+				<!-- type=quote -->
+				<div ng-show="post.text" ng-bind-html-unsafe="post.text"></div>
+				<div class="caption" ng-show="post.source" ng-bind-html-unsafe="post.source"></div>
+
+				<!-- type=photo -->
+				<a href="{{post.source_url}}" target="_blank">
+					<img class="image" ng-repeat="photo in post.photos"
+						 ng-src="{{photo.alt_sizes[0].url}}">
+				</a>
+				<div class="caption" ng-bind-html-unsafe="post.caption"></div>
+
+				<!-- type=link -->
+				<a href="{{post.url}}">{{post.title}}</a>
+				<div ng-bind-unsafe="post.description"></div>
+
+				<!-- type=text -->
+				<div>{{post.title}}</div>
+				<div ng-bind-unsafe="post.body"></div>
+
+				<!-- 共通 -->
+				<div class="permalink">
 					<a href="{{post.post_url}}" target="_blank">permalink</a>
 				</div>
 			</div>
