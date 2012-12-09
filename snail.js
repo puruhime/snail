@@ -9,7 +9,6 @@ function post($scope, $http){
 		$scope.posts.push.apply($scope.posts, d.response.posts);
 		$scope.posts[0].isShow = true;
 		$scope.$apply();
-		debugger;
 	});
 
 	new function appendKeyEventListener(){
@@ -21,9 +20,17 @@ function post($scope, $http){
 					index++;
 
 					if(index >= $scope.posts.length){
-						//TODO ここでロード
+						snail.tumblr.user.dashboard(function(d){
+							$scope.posts.push.apply($scope.posts, d.response.posts);
+							$scope.posts[index].isShow = true;
+							$scope.$apply();
+						}, index);
+
 						return;
 					}
+
+					//imageが横長だった場合
+					window.innerWidth
 
 					$scope.posts[index].isShow = true;
 				}
@@ -42,8 +49,20 @@ function post($scope, $http){
 				}
 			},
 			84:{//t
-				keyup:function(){
-					snail.tumblr.blog.post.reblog($scope.posts[index]);
+				keyup:function($scope){
+					const self = this;
+
+					snail.tumblr.blog.post.reblog($scope.posts[index],{
+						success:function(){
+							KEYS[74].keyup($scope);
+							$scope.$apply();
+						}
+					});
+				}
+			},
+			82:{//r
+				keyup:function($scope){
+					snail.tumblr.user.like($scope.posts[index]);
 				}
 			}
 		}
@@ -51,7 +70,14 @@ function post($scope, $http){
 		var index = 0;
 
 		$(document).keyup(function(e){
-			e.keyCode in KEYS && KEYS[e.keyCode].keyup($scope);
+			if(e.keyCode in KEYS == false) {
+				return;
+			}
+
+			KEYS[e.keyCode].keyup($scope);
+			$(document).scrollTop(0);
+
+
 			$scope.$apply();
 		});
 	}

@@ -1,0 +1,36 @@
+html {
+    background-color: #2C4762;
+}
+
+body {
+	margin: 1%;
+}
+
+.window {
+    margin: 0px 1% 0px 1%;
+
+    background-color: white;
+    border-radius: 20px;
+    padding: 0px 1% 1% 1%;
+}
+
+.quote,
+.link,
+.text{
+    padding: 2%;
+}
+
+.image {
+    height: 70%;
+    display: block;
+    margin: 0px auto 0px auto;
+}
+
+.caption p {
+	text-align: center;
+}
+
+.permalink {
+	margin-top: 20px;
+	text-align: center;
+}
