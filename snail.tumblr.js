@@ -135,7 +135,9 @@ snail.tumblr.user.like = function(args, options){
 		params:{
 			id: args.id,
 			reblog_key: args.reblog_key
-		}
+		},
+		success:options.success,
+		error:options.error
 	});
 };
 snail.tumblr.blog = {};

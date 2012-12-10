@@ -50,19 +50,30 @@ function post($scope, $http){
 			},
 			84:{//t
 				keyup:function($scope){
-					const self = this;
+					const miniLog = angular.element($("#miniLog")).scope();
 
 					snail.tumblr.blog.post.reblog($scope.posts[index],{
 						success:function(){
 							KEYS[74].keyup($scope);
+							miniLog.addLog("post success!");
 							$scope.$apply();
 						}
 					});
+
+					miniLog.addLog("reblog...");
 				}
 			},
 			82:{//r
 				keyup:function($scope){
-					snail.tumblr.user.like($scope.posts[index]);
+					const miniLog = angular.element($("#miniLog")).scope();
+
+					snail.tumblr.user.like($scope.posts[index], {
+						success:function(){
+							miniLog.addLog("like success!");
+						}
+					});
+
+					miniLog.addLog("like...");
 				}
 			}
 		}
@@ -77,8 +88,20 @@ function post($scope, $http){
 			KEYS[e.keyCode].keyup($scope);
 			$(document).scrollTop(0);
 
-
 			$scope.$apply();
 		});
 	}
+}
+
+function miniLog($scope){
+	$scope.logs = [];
+
+	$scope.addLog = function(log){
+		$scope.logs.push(log);
+
+		setTimeout(function(){
+			$scope.logs.shift();
+			$scope.$apply();
+		}, 2500);
+	};
 }
