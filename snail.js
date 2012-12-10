@@ -30,7 +30,9 @@ function post($scope, $http){
 					}
 
 					//imageが横長だった場合
-					window.innerWidth
+					if($scope.posts[index].photos[0].original_size.width >= $(window).width()){
+						$scope.posts[index].isImageMode = "width";
+					}
 
 					$scope.posts[index].isShow = true;
 				}
@@ -60,7 +62,12 @@ function post($scope, $http){
 						}
 					});
 
-					miniLog.addLog("reblog...");
+					if($scope.posts.length <= index) {
+						KEYS[74].keyup($scope);
+						miniLog.addLog("reblog...");
+					}else{
+						miniLog.addLog("loading...");
+					}
 				}
 			},
 			82:{//r
