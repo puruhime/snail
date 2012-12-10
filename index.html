@@ -18,7 +18,9 @@
 				<!-- type=photo -->
 				<a href="{{post.source_url}}" target="_blank">
 					<img class="image" ng-repeat="photo in post.photos"
-						 ng-src="{{photo.alt_sizes[0].url}}">
+						 ng-src="{{photo.original_size.url}}" ng-hide="post.isImageMode">
+					<img class="imageWidth" ng-repeat="photo in post.photos"
+						 ng-src="{{photo.original_size.url}}" ng-show="post.isImageMode">
 				</a>
 				<div class="caption" ng-bind-html-unsafe="post.caption"></div>
 
@@ -36,5 +38,8 @@
 				</div>
 			</div>
 		</div>
+		<ul id="miniLog" ng-controller="miniLog" ng-model="logs">
+			<li ng-repeat="log in logs">{{log}}</li>
+		</ul>
 	</body>
 </html>
