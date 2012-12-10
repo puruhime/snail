@@ -30,7 +30,9 @@ function post($scope, $http){
 					}
 
 					//imageが横長だった場合
-					window.innerWidth
+					if($scope.posts[index].photos[0].original_size.width >= $(window).width()){
+						$scope.posts[index].isImageMode = "width";
+					}
 
 					$scope.posts[index].isShow = true;
 				}
@@ -50,19 +52,35 @@ function post($scope, $http){
 			},
 			84:{//t
 				keyup:function($scope){
-					const self = this;
+					const miniLog = angular.element($("#miniLog")).scope();
 
 					snail.tumblr.blog.post.reblog($scope.posts[index],{
 						success:function(){
 							KEYS[74].keyup($scope);
+							miniLog.addLog("post success!");
 							$scope.$apply();
 						}
 					});
+
+					if($scope.posts.length <= index) {
+						KEYS[74].keyup($scope);
+						miniLog.addLog("reblog...");
+					}else{
+						miniLog.addLog("loading...");
+					}
 				}
 			},
 			82:{//r
 				keyup:function($scope){
-					snail.tumblr.user.like($scope.posts[index]);
+					const miniLog = angular.element($("#miniLog")).scope();
+
+					snail.tumblr.user.like($scope.posts[index], {
+						success:function(){
+							miniLog.addLog("like success!");
+						}
+					});
+
+					miniLog.addLog("like...");
 				}
 			}
 		}
@@ -77,8 +95,20 @@ function post($scope, $http){
 			KEYS[e.keyCode].keyup($scope);
 			$(document).scrollTop(0);
 
-
 			$scope.$apply();
 		});
 	}
+}
+
+function miniLog($scope){
+	$scope.logs = [];
+
+	$scope.addLog = function(log){
+		$scope.logs.push(log);
+
+		setTimeout(function(){
+			$scope.logs.shift();
+			$scope.$apply();
+		}, 2500);
+	};
 }

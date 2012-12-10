@@ -26,6 +26,13 @@ body {
     margin: 0px auto 0px auto;
 }
 
+.imageWidth {
+	height: 70%;
+	width: 70%;
+	display: block;
+	margin: 0px auto 0px auto;
+}
+
 .caption p {
 	text-align: center;
 }
@@ -33,4 +40,23 @@ body {
 .permalink {
 	margin-top: 20px;
 	text-align: center;
+}
+
+#miniLog {
+    position: absolute;
+	
+    right: 3%;
+    top: 2%;
+    margin: 0px;
+    padding: 0px;
+}
+
+#miniLog li {
+	background-color: rgba(0, 0, 0, 0.25);
+	border-radius: 10px;
+
+	list-style-type: none;
+	padding: 1px 10px 1px 10px;
+	margin-bottom: 3px;
+	color: rgba(0, 0, 0, 0.5);
 }
