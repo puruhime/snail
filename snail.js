@@ -5,10 +5,12 @@ function oauth($scope, $http){
 function post($scope, $http){
 	$scope.posts = [];
 
-	snail.tumblr.user.dashboard(function(d){
-		$scope.posts.push.apply($scope.posts, d.response.posts);
-		$scope.posts[0].isShow = true;
-		$scope.$apply();
+	snail.tumblr.user.dashboard({
+		success:function(d){
+			$scope.posts.push.apply($scope.posts, d.response.posts);
+			$scope.posts[0].isShow = true;
+			$scope.$apply();
+		}
 	});
 
 	new function appendKeyEventListener(){
@@ -19,18 +21,24 @@ function post($scope, $http){
 
 					index++;
 
-					if(index >= $scope.posts.length){
-						snail.tumblr.user.dashboard(function(d){
-							$scope.posts.push.apply($scope.posts, d.response.posts);
-							$scope.posts[index].isShow = true;
-							$scope.$apply();
-						}, index);
+					if(index >= $scope.posts.length && $scope.isLoad == false){
+						$scope.isLoad = true;
+
+						snail.tumblr.user.dashboard({
+							success:function(d){
+								$scope.posts.push.apply($scope.posts, d.response.posts);
+								$scope.posts[index].isShow = true;
+								$scope.$apply();
+								$scope.isLoad = false;
+							},
+							offset:index
+						});
 
 						return;
 					}
 
 					//imageが横長だった場合
-					if($scope.posts[index].photos[0].original_size.width >= $(window).width()){
+					if($scope.posts[index].photos != undefined && $scope.posts[index].photos[0].original_size.width >= $(window).width()){
 						$scope.posts[index].isImageMode = "width";
 					}
 
@@ -54,20 +62,20 @@ function post($scope, $http){
 				keyup:function($scope){
 					const miniLog = angular.element($("#miniLog")).scope();
 
-					snail.tumblr.blog.post.reblog($scope.posts[index],{
-						success:function(){
-							KEYS[74].keyup($scope);
-							miniLog.addLog("post success!");
-							$scope.$apply();
-						}
-					});
-
-					if($scope.posts.length <= index) {
+					if($scope.posts.length > index) {
 						KEYS[74].keyup($scope);
+						$scope.$apply();
 						miniLog.addLog("reblog...");
 					}else{
 						miniLog.addLog("loading...");
 					}
+
+					snail.tumblr.blog.post.reblog($scope.posts[index],{
+						success:function(){
+							miniLog.addLog("post success!");
+							$scope.$apply();
+						}
+					});
 				}
 			},
 			82:{//r
