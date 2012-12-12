@@ -21,7 +21,7 @@ function post($scope, $http){
 
 					index++;
 
-					if(index >= $scope.posts.length && $scope.isLoad == false){
+					if(index >= $scope.posts.length && !$scope.isLoad){
 						$scope.isLoad = true;
 
 						snail.tumblr.user.dashboard({
@@ -38,8 +38,23 @@ function post($scope, $http){
 					}
 
 					//imageが横長だった場合
+					/*
 					if($scope.posts[index].photos != undefined && $scope.posts[index].photos[0].original_size.width >= $(window).width()){
 						$scope.posts[index].isImageMode = "width";
+					}
+					*/
+					if("photos" in $scope.posts[index]){
+						$("<img/>")
+							.attr(
+								"src",
+								$scope.posts[index].photos[0].original_size.url
+							)
+							.load(function(){
+								if($(this).width() >= $(window).width()){
+									$scope.posts[index].isImageMode = "width";
+									$scope.$apply();
+								}
+							});
 					}
 
 					$scope.posts[index].isShow = true;
@@ -70,7 +85,7 @@ function post($scope, $http){
 						miniLog.addLog("loading...");
 					}
 
-					snail.tumblr.blog.post.reblog($scope.posts[index],{
+					snail.tumblr.blog.post.reblog($scope.posts[index - 1],{
 						success:function(){
 							miniLog.addLog("post success!");
 							$scope.$apply();
