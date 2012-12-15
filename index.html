@@ -26,12 +26,11 @@
 
 				<!-- type=link -->
 				<a href="{{post.url}}">{{post.title}}</a>
-				<div ng-bind-unsafe="post.description"></div>
+				<div ng-bind-html-unsafe="post.description"></div>
 
 				<!-- type=text -->
 				<div>{{post.title}}</div>
-				<div ng-bind-unsafe="post.body"></div>
-				<div>{{post.body}}</div>
+				<div ng-bind-html-unsafe="post.body"></div>
 
 				<!-- 共通 -->
 				<div class="permalink">
