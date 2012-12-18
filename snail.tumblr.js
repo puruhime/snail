@@ -164,3 +164,14 @@ snail.tumblr.blog.post.reblog = function(args, options){
 		error:options.error
 	});
 };
+
+snail.tumblr.extra = {};
+snail.tumblr.extra.countQueue = function(callback){
+	$.ajax({
+		url:"http://www.tumblr.com/blog/" + localStorage["userName"],
+		success:function(d){
+			const count = +$(d).find(".queue .count").text();
+			callback(count);
+		}
+	});
+};
