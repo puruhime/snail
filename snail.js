@@ -91,6 +91,10 @@ function post($scope, $http){
 							$scope.$apply();
 						}
 					});
+
+					snail.tumblr.extra.countQueue(function(count){
+						$("title").text(count + ":queue, snail");
+					});
 				}
 			},
 			82:{//r
