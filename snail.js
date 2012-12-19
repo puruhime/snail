@@ -17,6 +17,9 @@ function post($scope, $http){
 		const KEYS = {
 			74:{//j
 				keyup:function($scope){
+					//ロード中だからはじく
+					if("isShow" in $scope.posts[index] == false) return;
+
 					$scope.posts[index].isShow = false;
 
 					index++;
@@ -85,7 +88,11 @@ function post($scope, $http){
 						miniLog.addLog("loading...");
 					}
 
-					snail.tumblr.blog.post.reblog($scope.posts[index - 1],{
+					var post = index == 0 ?
+								$scope.posts[index] :
+								$scope.posts[index + 1];
+
+					snail.tumblr.blog.post.reblog(post,{
 						success:function(){
 							miniLog.addLog("post success!");
 							$scope.$apply();

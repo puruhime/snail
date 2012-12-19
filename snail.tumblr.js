@@ -110,15 +110,12 @@ snail.tumblr.api = function(args){
 };
 snail.tumblr.user = {};
 snail.tumblr.user.dashboard = function(args){
-	if(args.offset == undefined){
-		args.offset = 0;
-	}
-
 	snail.tumblr.api({
 		url:"http://api.tumblr.com/v2/user/dashboard",
 		success:args.success,
 		params:{
-			offset:args.offset
+			offset:args.offset,
+			since_id:args.since_id
 		}
 	});
 };
