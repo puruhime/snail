@@ -88,9 +88,9 @@ function post($scope, $http){
 						miniLog.addLog("loading...");
 					}
 
-					var post = index == 0 ?
-								$scope.posts[index] :
-								$scope.posts[index + 1];
+					//まずjキーの動作を行うため、indexが+1される。
+					//そのため、reblogする時はindexを-1する。
+					var post = $scope.posts[index - 1];
 
 					snail.tumblr.blog.post.reblog(post,{
 						success:function(){
