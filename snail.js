@@ -25,6 +25,10 @@ function post($scope, $http){
 					index++;
 
 					if(index >= $scope.posts.length && !$scope.isLoad){
+						const miniLog = angular.element($("#miniLog")).scope();
+
+						miniLog.addLog("loading...");
+
 						$scope.isLoad = true;
 
 						snail.tumblr.user.dashboard({
@@ -41,11 +45,6 @@ function post($scope, $http){
 					}
 
 					//imageが横長だった場合
-					/*
-					if($scope.posts[index].photos != undefined && $scope.posts[index].photos[0].original_size.width >= $(window).width()){
-						$scope.posts[index].isImageMode = "width";
-					}
-					*/
 					if("photos" in $scope.posts[index]){
 						$("<img/>")
 							.attr(
@@ -78,15 +77,14 @@ function post($scope, $http){
 			},
 			84:{//t
 				keyup:function($scope){
+					//ロード中だからはじく
+					if("isShow" in $scope.posts[index] == false) return;
+
 					const miniLog = angular.element($("#miniLog")).scope();
 
-					if($scope.posts.length > index) {
-						KEYS[74].keyup($scope);
-						$scope.$apply();
-						miniLog.addLog("reblog...");
-					}else{
-						miniLog.addLog("loading...");
-					}
+					KEYS[74].keyup($scope);
+					$scope.$apply();
+					miniLog.addLog("reblog...");
 
 					//まずjキーの動作を行うため、indexが+1される。
 					//そのため、reblogする時はindexを-1する。
