@@ -146,3 +146,10 @@ function miniLog($scope){
 		}, 2500);
 	};
 }
+
+//たまに_blankを持ってないaタグをtumblr側が返す事があるので、その対策。
+//また、これがある限り全てのリンクは新しいタブに移動する事になるため、target指定いらずになる
+$("a").live("click", function(){
+	window.open(this.href, "_blank");
+	return false;
+});
