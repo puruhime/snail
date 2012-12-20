@@ -20,13 +20,13 @@ function post($scope, $http){
 					//ロード中だからはじく
 					if("isShow" in $scope.posts[index] == false) return;
 
+					const miniLog = angular.element($("#miniLog")).scope();
+
 					$scope.posts[index].isShow = false;
 
 					index++;
 
 					if(index >= $scope.posts.length && !$scope.isLoad){
-						const miniLog = angular.element($("#miniLog")).scope();
-
 						miniLog.addLog("loading...");
 
 						$scope.isLoad = true;
@@ -60,6 +60,8 @@ function post($scope, $http){
 					}
 
 					$scope.posts[index].isShow = true;
+
+					miniLog.addLog(index + "meters");
 				}
 			},
 			75:{//k
@@ -133,15 +135,29 @@ function post($scope, $http){
 }
 
 function miniLog($scope){
+	const DELETE_TIME = 2500;
+
 	$scope.logs = [];
+	var isShowing = false;
+
 
 	$scope.addLog = function(log){
 		$scope.logs.push(log);
 
+		if(isShowing == true) return;
+
 		setTimeout(function(){
 			$scope.logs.shift();
 			$scope.$apply();
-		}, 2500);
+
+			if($scope.logs.length){
+				setTimeout(arguments.callee, DELETE_TIME);
+			}else{
+				isShowing = false;
+			}
+		}, DELETE_TIME);
+
+		isShowing = true;
 	};
 }
 
