@@ -20,11 +20,15 @@ function post($scope, $http){
 					//ロード中だからはじく
 					if("isShow" in $scope.posts[index] == false) return;
 
+					const miniLog = angular.element($("#miniLog")).scope();
+
 					$scope.posts[index].isShow = false;
 
 					index++;
 
 					if(index >= $scope.posts.length && !$scope.isLoad){
+						miniLog.addLog("loading...");
+
 						$scope.isLoad = true;
 
 						snail.tumblr.user.dashboard({
@@ -41,11 +45,6 @@ function post($scope, $http){
 					}
 
 					//imageが横長だった場合
-					/*
-					if($scope.posts[index].photos != undefined && $scope.posts[index].photos[0].original_size.width >= $(window).width()){
-						$scope.posts[index].isImageMode = "width";
-					}
-					*/
 					if("photos" in $scope.posts[index]){
 						$("<img/>")
 							.attr(
@@ -61,6 +60,8 @@ function post($scope, $http){
 					}
 
 					$scope.posts[index].isShow = true;
+
+					miniLog.addLog(index + "meters");
 				}
 			},
 			75:{//k
@@ -78,19 +79,18 @@ function post($scope, $http){
 			},
 			84:{//t
 				keyup:function($scope){
+					//ロード中だからはじく
+					if("isShow" in $scope.posts[index] == false) return;
+
 					const miniLog = angular.element($("#miniLog")).scope();
 
-					if($scope.posts.length > index) {
-						KEYS[74].keyup($scope);
-						$scope.$apply();
-						miniLog.addLog("reblog...");
-					}else{
-						miniLog.addLog("loading...");
-					}
+					KEYS[74].keyup($scope);
+					$scope.$apply();
+					miniLog.addLog("reblog...");
 
-					var post = index == 0 ?
-								$scope.posts[index] :
-								$scope.posts[index + 1];
+					//まずjキーの動作を行うため、indexが+1される。
+					//そのため、reblogする時はindexを-1する。
+					var post = $scope.posts[index - 1];
 
 					snail.tumblr.blog.post.reblog(post,{
 						success:function(){
@@ -135,14 +135,35 @@ function post($scope, $http){
 }
 
 function miniLog($scope){
+	const DELETE_TIME = 2500;
+
 	$scope.logs = [];
+	var isShowing = false;
+
 
 	$scope.addLog = function(log){
 		$scope.logs.push(log);
 
+		if(isShowing == true) return;
+
 		setTimeout(function(){
 			$scope.logs.shift();
 			$scope.$apply();
-		}, 2500);
+
+			if($scope.logs.length){
+				setTimeout(arguments.callee, DELETE_TIME);
+			}else{
+				isShowing = false;
+			}
+		}, DELETE_TIME);
+
+		isShowing = true;
 	};
 }
+
+//たまに_blankを持ってないaタグをtumblr側が返す事があるので、その対策。
+//また、これがある限り全てのリンクは新しいタブに移動する事になるため、target指定いらずになる
+$("a").live("click", function(){
+	window.open(this.href, "_blank");
+	return false;
+});
