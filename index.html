@@ -27,7 +27,8 @@
 				<div class="caption" ng-bind-html-unsafe="post.caption"></div>
 
 				<!-- type=link -->
-				<a href="{{post.url}}" target="_blank">{{post.title}}</a>
+				<a ng-show="post.title" href="{{post.url}}" target="_blank">{{post.title}}</a>
+				<a ng-hide="post.title" href="{{post.url}}" target="_blank">{{post.url}}</a>
 				<div ng-bind-html-unsafe="post.description"></div>
 
 				<!-- type=text -->
