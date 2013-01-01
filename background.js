@@ -1,3 +1,4 @@
 chrome.browserAction.onClicked.addListener(function(){
-	window.open("index.html");
+	var path = chrome.extension.getURL("index.html");
+	window.open(path);
 });
