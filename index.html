@@ -18,13 +18,22 @@
 				<div class="caption" ng-show="post.source" ng-bind-html-unsafe="post.source"></div>
 
 				<!-- type=photo -->
-				<a href="{{post.source_url}}" target="_blank">
-					<img class="image" ng-repeat="photo in post.photos"
-						 ng-src="{{photo.alt_sizes[1].url}}" ng-hide="post.isImageMode">
-					<img class="imageWidth" ng-repeat="photo in post.photos"
-						 ng-src="{{photo.alt_sizes[1].url}}" ng-show="post.isImageMode">
-				</a>
-				<div class="caption" ng-bind-html-unsafe="post.caption"></div>
+				<div>
+					<a ng-show="post.source_url" href="{{post.source_url}}" target="_blank">
+						<img class="image" ng-repeat="photo in post.photos"
+							 ng-src="{{photo.alt_sizes[1].url}}" ng-hide="post.isImageMode">
+						<img class="imageWidth" ng-repeat="photo in post.photos"
+							 ng-src="{{photo.alt_sizes[1].url}}" ng-show="post.isImageMode">
+					</a>
+					<!-- source_urlが存在しない場合はlink_urlを採用するものとする -->
+					<a ng-hide="post.source_url" href="{{post.link_url}}" target="_blank">
+						<img class="image" ng-repeat="photo in post.photos"
+							 ng-src="{{photo.alt_sizes[1].url}}" ng-hide="post.isImageMode">
+						<img class="imageWidth" ng-repeat="photo in post.photos"
+							 ng-src="{{photo.alt_sizes[1].url}}" ng-show="post.isImageMode">
+					</a>
+					<div class="caption" ng-bind-html-unsafe="post.caption"></div>
+				</div>
 
 				<!-- type=link -->
 				<a ng-show="post.title" href="{{post.url}}" target="_blank">{{post.title}}</a>
