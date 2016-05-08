@@ -1,4 +1,4 @@
-if(typeof snail == "undefined") const snail = {};
+if(typeof snail == "undefined") var snail = {};
 
 snail.tumblr = {};
 
